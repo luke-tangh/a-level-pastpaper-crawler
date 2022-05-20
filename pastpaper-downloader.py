@@ -1,27 +1,24 @@
-# %% [markdown]
-# # PASTPAPER DOWNLOADER
+"""
+pastpaper-downloader.py
+coding:utf-8
 
-# %% [markdown]
-# 1.前置需求 Requirements
+Developed by @Luke.Tang 2022
+This program crawl cambridge a level papers from papers.gceguide.com
+For more information, please visit github.com/Clob4k/a-level-pastpaper-crawler
+"""
 
-# %%
 import requests
 import time
 import os
 import re
 
-# %% [markdown]
-# 2.函数定义 Functions
 
-# %%
-# 爬取延迟设置 Crawl Delay
 def crawl_delay():
-    delay = 30
+    delay = 10
     print('pause for crawl delay...({}s)'.format(delay))
     time.sleep(delay)
 
-# %%
-# 获取网站html get HTML
+
 def get_html(url):
     try:
         r = requests.get(url, timeout=30)
@@ -31,8 +28,7 @@ def get_html(url):
     except requests.HTTPError:
         return "HTTPError"
 
-# %%
-# 获取目录下pdf文件名 Get pdf name
+
 def get_pdf_name(url, subject_code):
     web = get_html(url)
     web_text = web.text
@@ -46,21 +42,15 @@ def get_pdf_name(url, subject_code):
             print(pdf_list[i])
     return pdf_set
 
-# %% [markdown]
-# 3.参数设置 parameters
 
-# %%
-
-# download information
-year = '2015'
-subject_code = '9608'
-# reconnect times for network errors
+year = '2011'
+subject_code = '9702'
 trial_max = 5
 save_path = './{}/{}/'.format(subject_code, year)
 
-subject_dict = {"9702" : "Physics", "9701" : "Chemistry", "9700" : "Biology", \
-                "9696" : "Geography", "9706" : "History", "9489" : "Economics",\
-                "9093" : "English", "9710" : "Chinese", "9715" : "Mathematics",\
+subject_dict = {"9702" : "Physics", "9703" : "Chemistry", "9704" : "Biology", \
+                "9705" : "Geography", "9706" : "History", "9708" : "Economics",\
+                "9709" : "English", "9710" : "Chinese", "9711" : "Mathematics",\
                 "9608" : "Computer%20Science%20(for%20final%20examination%20in%202021)",\
                 "9618" : "Computer%20Science%20(for%20first%20examination%20in%202021)"}
 
@@ -76,10 +66,6 @@ else:
     print('successfully connected')
 
 
-# %% [markdown]
-# 4.主程序 Main program
-
-# %%
 pdf_set = get_pdf_name(url, subject_code)
 count = 1
 trial_max = 5
