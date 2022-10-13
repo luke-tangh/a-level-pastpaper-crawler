@@ -69,7 +69,7 @@ save_path = './{}/{}/'.format(subject_code, year)
 
 subject_dict = {"9702" : "Physics", "9701" : "Chemistry", "9700" : "Biology", \
                 "9696" : "Geography", "9706" : "History", "9489" : "Economics",\
-                "9093" : "English", "9710" : "Chinese", "9715" : "Mathematics",\
+                "9093" : "English", "9710" : "Chinese", "9709" : "Mathematics",\
                 "9608" : "Computer%20Science%20(for%20final%20examination%20in%202021)",\
                 "9618" : "Computer%20Science%20(for%20first%20examination%20in%202021)"}
 
