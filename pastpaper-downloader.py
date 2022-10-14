@@ -30,7 +30,7 @@ def crawl_delay():
     time.sleep(delay)
 
 # %%
-# 获取网站html get HTML
+# 获取网站HTML Get HTML
 def get_html(url):
     try:
         r = requests.get(url, timeout=30)
@@ -51,7 +51,6 @@ def get_pdf_name(url, subject_code):
     for i in range(len(pdf_list)):
         if len(pdf_list[i]) < 20:
             pdf_set.add(pdf_list[i])
-            
             print(pdf_list[i])
     return pdf_set
 
@@ -63,15 +62,26 @@ def get_pdf_name(url, subject_code):
 # download information
 year = '2015'
 subject_code = '9608'
+
 # reconnect times for network errors
 trial_max = 5
+
+# modify savepath
 save_path = './{}/{}/'.format(subject_code, year)
 
-subject_dict = {"9702" : "Physics", "9701" : "Chemistry", "9700" : "Biology", \
-                "9696" : "Geography", "9706" : "History", "9489" : "Economics",\
-                "9093" : "English", "9710" : "Chinese", "9709" : "Mathematics",\
-                "9608" : "Computer%20Science%20(for%20final%20examination%20in%202021)",\
-                "9618" : "Computer%20Science%20(for%20first%20examination%20in%202021)"}
+subject_dict = {
+"9702" : "Physics",\
+"9701" : "Chemistry",\
+"9700" : "Biology", \
+"9696" : "Geography",\
+"9706" : "History",\
+"9489" : "Economics",\
+"9093" : "English",\
+"9710" : "Chinese",\
+"9709" : "Mathematics",\
+"9231" : "Mathematics%20-%20Further%20",\
+"9608" : "Computer%20Science%20(for%20final%20examination%20in%202021)",\
+"9618" : "Computer%20Science%20(for%20first%20examination%20in%202021)"}
 
 subject_name = subject_dict[subject_code]
 subject = '{}%20({})'.format(subject_name,subject_code)
@@ -91,16 +101,15 @@ else:
 # %%
 pdf_set = get_pdf_name(url, subject_code)
 count = 1
-trial_max = 5
 for pdf in pdf_set:
     trial = 1
-    print("=====================")
+    print("="*20)
     print(pdf)
     print(count, "/", len(pdf_set))
-    print("=====================")
+    print("="*20)
     pdf_url = url + pdf
     pdf_name = save_path + pdf
-    if os.path.exists(save_path) == False:
+    if not os.path.exists(save_path):
         os.makedirs(save_path)
     if os.path.exists(pdf_name):
         print("The file has already existed")
@@ -111,7 +120,7 @@ for pdf in pdf_set:
             crawl_delay()
             print("Download failed. Retrying...{}/{}".format(trial, trial_max))
             pdf_content = get_html(pdf_url)
-            if trial == trial_max:
+            if trial >= trial_max:
                 print("Download failed. Automatically switch to next item.")
                 continue
             trial += 1
