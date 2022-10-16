@@ -1,7 +1,11 @@
 # a-level-pastpaper-crawler
 crawl cambridge a level papers from papers.gceguide.com
 
-- Change the variables `year` and `subject_code` to suit your needs
+- Change the variables `years` and `subject_code` to suit your needs
+
+- `years` must be `list[str]` data type that supports batch download mutiple years. 
+
+    > e.g. `['9702', '9479']` is accepted while `[9702, 9479]` / `9702` / `9702` is not.
 
 - Crawl delay are set to minimum value of 30 seconds according to the robots from the website.
 
