@@ -5,7 +5,7 @@ crawl cambridge a level papers from papers.gceguide.com
 
 - `years` must be `list[str]` data type that supports batch download mutiple years. 
 
-    > e.g. `['9702', '9479']` is accepted while `[9702, 9479]` / `9702` / `9702` is not.
+    > e.g. `['2018', '2019']` is accepted while `[2018, 2019]` / `2019` / `2018` is not.
 
 - Crawl delay are set to minimum value of 30 seconds according to the robots from the website.
 
