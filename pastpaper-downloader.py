@@ -12,6 +12,7 @@ For more information, please visit github.com/Clob4k/a-level-paper-downloader
 # 1.前置需求 Requirements
 
 import requests
+import json
 import time
 import os
 import re
@@ -59,6 +60,11 @@ subject_code = '9608'
 
 # reconnect times for network errors
 trial_max = 5
+
+'''
+with open("subject.json", 'r') as f:
+    print(json.load(f))
+'''
 
 subject_dict = {
     "9702": "Physics",
