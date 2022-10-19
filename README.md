@@ -9,7 +9,7 @@ crawl cambridge a level papers from papers.gceguide.com
 
 - Crawl delay are set to minimum value of 30 seconds according to the robots from the website.
 
-- Papers are defaultly saved in current working folder, `save_path` variable may be modified to suit your need. 
+- Papers are saved in current working folder by default, if needed, `save_path` variable may be modified. 
 
 # supported subjects
 
