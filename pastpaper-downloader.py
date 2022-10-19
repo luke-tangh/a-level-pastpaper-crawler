@@ -16,6 +16,7 @@ import time
 import os
 import re
 
+
 # 2.函数定义 Functions
 
 # 爬取延迟设置 Crawl Delay
@@ -23,6 +24,7 @@ def crawl_delay():
     delay = 30
     print('pause for crawl delay...({}s)'.format(delay))
     time.sleep(delay)
+
 
 # 获取网站HTML Get HTML
 def get_html(url):
@@ -33,6 +35,7 @@ def get_html(url):
         return r
     except requests.HTTPError:
         return "HTTPError"
+
 
 # 获取目录下pdf文件名 Get pdf name
 def get_pdf_name(url, subject_code):
@@ -47,6 +50,7 @@ def get_pdf_name(url, subject_code):
             print(pdf_list[i])
     return pdf_set
 
+
 # 3.参数设置 parameters
 
 # download information
@@ -57,29 +61,29 @@ subject_code = '9608'
 trial_max = 5
 
 subject_dict = {
-"9702" : "Physics",\
-"9701" : "Chemistry",\
-"9700" : "Biology", \
-"9696" : "Geography",\
-"9706" : "History",\
-"9489" : "Economics",\
-"9093" : "English",\
-"9710" : "Chinese",\
-"9709" : "Mathematics",\
-"9231" : "Mathematics%20-%20Further%20",\
-"9608" : "Computer%20Science%20(for%20final%20examination%20in%202021)",\
-"9618" : "Computer%20Science%20(for%20first%20examination%20in%202021)"}
+    "9702": "Physics",
+    "9701": "Chemistry",
+    "9700": "Biology",
+    "9696": "Geography",
+    "9706": "History",
+    "9489": "Economics",
+    "9093": "English",
+    "9710": "Chinese",
+    "9709": "Mathematics",
+    "9231": "Mathematics%20-%20Further%20",
+    "9608": "Computer%20Science%20(for%20final%20examination%20in%202021)",
+    "9618": "Computer%20Science%20(for%20first%20examination%20in%202021)"}
 
 # 4.主程序 Main program
 
 for year in years:
     print("="*20)
     print("Subject: {}, Year: {}".format(subject_code, year))
-    # modify savepath
+    # modify save path
     save_path = './{}/{}/'.format(subject_code, year)
     subject_name = subject_dict[subject_code]
-    subject = '{}%20({})'.format(subject_name,subject_code)
-    url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject,year)
+    subject = '{}%20({})'.format(subject_name, subject_code)
+    url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject, year)
     print("target url: {}".format(url))
 
     r = requests.get(url, timeout=30)
