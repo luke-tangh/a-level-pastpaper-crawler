@@ -1,7 +1,9 @@
 # a-level-pastpaper-crawler
 crawl cambridge a level papers from papers.gceguide.com
 
-- Change the variables `years` and `subject_code` to suit your needs
+- Change the variables `years` to suit your needs
+
+- Amend `subject.json` to add additional subjects
 
 - `years` must be `list[str]` data type that supports batch download mutiple years. 
 

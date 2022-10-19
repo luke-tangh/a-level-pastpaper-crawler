@@ -61,24 +61,8 @@ subject_code = '9608'
 # reconnect times for network errors
 trial_max = 5
 
-'''
 with open("subject.json", 'r') as f:
-    print(json.load(f))
-'''
-
-subject_dict = {
-    "9702": "Physics",
-    "9701": "Chemistry",
-    "9700": "Biology",
-    "9696": "Geography",
-    "9706": "History",
-    "9489": "Economics",
-    "9093": "English",
-    "9710": "Chinese",
-    "9709": "Mathematics",
-    "9231": "Mathematics%20-%20Further%20",
-    "9608": "Computer%20Science%20(for%20final%20examination%20in%202021)",
-    "9618": "Computer%20Science%20(for%20first%20examination%20in%202021)"}
+    subject_dict = json.load(f)
 
 # 4.主程序 Main program
 
