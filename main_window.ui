@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>405</width>
+    <height>195</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>381</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="SubjectLabel">
+           <property name="text">
+            <string>Subject</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="YearLabel">
+           <property name="text">
+            <string>Year</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QComboBox" name="SubjectComboBox">
+           <item>
+            <property name="text">
+             <string>9231 Mathematics - Further</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9479 Art &amp; Design</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9489 History</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9608 Computer Science (old)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9618 Computer Science (new)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9618 Computer Science</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9700 Biology</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9701 Chemistry</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9702 Physics</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9709 Mathematics</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="YearComboBox">
+           <item>
+            <property name="text">
+             <string>2022</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2021</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2020</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2019</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2018</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2017</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2016</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2015</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2014</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2013</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2012</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QListView" name="ProgressList"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="SubmitButton">
+         <property name="text">
+          <string>Download</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
