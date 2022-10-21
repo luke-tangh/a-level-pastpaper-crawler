@@ -25,8 +25,7 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
 
     def button_setup(self):
         self.SubmitButton.clicked.connect(self.submit)
-        self.Label.setText("Progress:")
-        self.progressBar.setRange(0, 1)
+        # self.progressBar.setRange(0, 1)
 
     def submit(self):
         year = self.YearComboBox.currentText()
@@ -38,11 +37,13 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
         thread.down_info(subject[:4], year)
         thread.start()
 
+    '''
     def init_progress_bar(self, total_pdfs):
         self.progressBar.setRange(0, total_pdfs)
 
     def update_progress_bar(self, cur):
         self.progressBar.setValue(cur)
+    '''
 
     def http_error(self, url):
         text = "Site can be reached! url:{}, retry?".format(url)
@@ -76,7 +77,8 @@ class Download(threading.Thread):
         threading.Thread.__init__(self)
         self.stop_flag = False
         self.counter = 0
-        self.DELAY = 10
+        self.total = 0
+        self.DELAY = 30
         self.subject_code = ""
         self.year = ""
 
@@ -102,13 +104,15 @@ class Download(threading.Thread):
         # initial progress_bar
         # MainWindow.init_progress_bar(len(pdfs))
 
+        self.total = len(pdfs)
+
         # download all papers
         for pdf in pdfs:
             # terminate if set
             if self.stop_flag:
                 return
             # show current pdf in title
-            MainWindow.setWindowTitle(pdf)
+            MainWindow.setWindowTitle("{}/{}: {}".format(self.counter, self.total, pdf))
             if create_save_dir(save_dir, pdf):
                 if not C.save_pdfs(pdf, save_dir):
                     MainWindow.download_error(pdf)
@@ -118,12 +122,12 @@ class Download(threading.Thread):
                     time.sleep(1)
                     MainWindow.setWindowTitle("Pause for {}s".format(self.DELAY - i))
 
-            # self.counter += 1
+            self.counter += 1
             # MainWindow.update_progress_bar(self.counter)
 
         MainWindow.setWindowTitle("Download complete")
         # resume button
-        # MainWindow.SubmitButton.setEnabled(True)
+        MainWindow.SubmitButton.setEnabled(True)
 
 
 if __name__ == '__main__':
