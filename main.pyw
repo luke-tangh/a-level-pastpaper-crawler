@@ -14,7 +14,6 @@ import threading
 import main_window
 from files import Data
 from downloader import Crawler, create_save_dir
-from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 
@@ -32,6 +31,7 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
     def submit(self):
         year = self.YearComboBox.currentText()
         subject = self.SubjectComboBox.currentText()
+        self.setWindowTitle("Connecting...")
         # disable button
         MainWindow.SubmitButton.setEnabled(False)
         # download thread initial
@@ -46,19 +46,11 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
 
     def http_error(self, url):
         text = "Site can be reached! url:{}, retry?".format(url)
-        reply = QMessageBox.information(self, "Warning", text, QMessageBox.Yes, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            return True
-        else:
-            return False
+        QMessageBox.information(self, "Warning", text, QMessageBox.Yes, QMessageBox.No)
 
     def download_error(self, pdf):
         text = "Failed to download! pdf:{}, retry?".format(pdf)
-        reply = QMessageBox.information(self, "Warning", text, QMessageBox.Yes, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            return True
-        else:
-            return False
+        QMessageBox.information(self, "Warning", text, QMessageBox.Yes, QMessageBox.No)
 
     def closeEvent(self, event):
         text = 'Exit? Downloads will not continue.'
@@ -68,6 +60,15 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
             event.accept()
         else:
             event.ignore()
+
+
+'''
+class ProgressBar(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.stop_flag = False
+'''
 
 
 class Download(threading.Thread):
@@ -90,18 +91,13 @@ class Download(threading.Thread):
         subject_name = D.sub_name(self.subject_code)
         save_dir = './{}/{}/'.format(self.subject_code, self.year)
 
-        # MainWindow.setWindowTitle("Connecting...")
-
         # request from web page
         C = Crawler(self.subject_code, subject_name, self.year)
         pdfs = C.find_pdfs()
 
         # retry when connection failed
-        '''while not pdfs:
-            if MainWindow.http_error(C.url):
-                pdfs = C.find_pdfs()
-            else:
-                break'''
+        if not pdfs:
+            MainWindow.http_error(C.url)
 
         # initial progress_bar
         # MainWindow.init_progress_bar(len(pdfs))
@@ -112,26 +108,20 @@ class Download(threading.Thread):
             if self.stop_flag:
                 return
             # show current pdf in title
-            # MainWindow.setWindowTitle(pdf)
+            MainWindow.setWindowTitle(pdf)
             if create_save_dir(save_dir, pdf):
-                if C.save_pdfs(pdf, save_dir):
-                    break
-                '''while True:
-                    if C.save_pdfs(pdf, save_dir):
-                        break
-                    else:
-                        if not MainWindow.download_error(pdf):
-                            break'''
+                if not C.save_pdfs(pdf, save_dir):
+                    MainWindow.download_error(pdf)
 
                 # pause for delay
                 for i in range(self.DELAY):
                     time.sleep(1)
-                    # MainWindow.setWindowTitle("Pause for {}s".format(self.DELAY - i))
+                    MainWindow.setWindowTitle("Pause for {}s".format(self.DELAY - i))
 
-            self.counter += 1
+            # self.counter += 1
             # MainWindow.update_progress_bar(self.counter)
 
-        # MainWindow.setWindowTitle("Download complete")
+        MainWindow.setWindowTitle("Download complete")
         # resume button
         # MainWindow.SubmitButton.setEnabled(True)
 
