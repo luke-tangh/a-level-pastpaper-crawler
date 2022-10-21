@@ -16,7 +16,7 @@ FILE_EXIST = "FileExist"
 
 
 class Crawler:
-    def __init__(self, code : str, name : str, year : str) -> None:
+    def __init__(self, code: str, name: str, year: str) -> None:
         self.url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(name, year)
         self.subject_code = code
         self.subject_name = name
@@ -36,7 +36,7 @@ class Crawler:
                 pdf_set.add(pdf_list[i])
         return list(pdf_list)
 
-    def save_pdfs(self, pdf : str, save_dir : str) -> bool:
+    def save_pdfs(self, pdf: str, save_dir: str) -> bool:
         pdf_url = self.url + pdf
         pdf_dir = save_dir + pdf
         pdf_cont = get_html(pdf_url)
@@ -48,7 +48,7 @@ class Crawler:
         return True
 
 
-def get_html(url : str):
+def get_html(url: str):
     try:
         r = requests.get(url, timeout=30)
         r.raise_for_status()
@@ -58,9 +58,10 @@ def get_html(url : str):
         return HTTP_ERROR
 
 
-def create_save_dir(path : str, pdf : str) -> bool:
+def create_save_dir(path: str, pdf: str) -> bool:
     if not os.path.exists(path):
         os.makedirs(path)
-        return True
-    if os.path.exists(pdf):
+    if os.path.exists(os.path.normpath(path + '/' + pdf)):
         return False
+    else:
+        return True

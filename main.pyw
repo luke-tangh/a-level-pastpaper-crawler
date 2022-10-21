@@ -7,12 +7,14 @@ This program crawl cambridge a level papers from papers.gceguide.com.
 For more information, please visit github.com/luke-tangh/a-level-paper-downloader
 """
 
+
 import sys
 import time
+import threading
 import main_window
 from files import Data
 from downloader import Crawler, create_save_dir
-from PyQt5.QtCore import QStringListModel
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 
@@ -24,16 +26,23 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
 
     def button_setup(self):
         self.SubmitButton.clicked.connect(self.submit)
+        self.Label.setText("Progress:")
+        self.progressBar.setRange(0, 1)
 
     def submit(self):
         year = self.YearComboBox.currentText()
         subject = self.SubjectComboBox.currentText()
-        download(year, subject[:4])
+        # disable button
+        MainWindow.SubmitButton.setEnabled(False)
+        # download thread initial
+        thread.down_info(subject[:4], year)
+        thread.start()
 
-    def display_info(self, log: list):
-        model = QStringListModel()
-        model.setStringList(log)
-        self.ProgressList.setModel(model)
+    def init_progress_bar(self, total_pdfs):
+        self.progressBar.setRange(0, total_pdfs)
+
+    def update_progress_bar(self, cur):
+        self.progressBar.setValue(cur)
 
     def http_error(self, url):
         text = "Site can be reached! url:{}, retry?".format(url)
@@ -55,56 +64,86 @@ class MainWindowSetup(QMainWindow, main_window.Ui_MainWindow):
         text = 'Exit? Downloads will not continue.'
         reply = QMessageBox.question(self, 'Warning', text, QMessageBox.Yes, QMessageBox.No)
         if reply == QMessageBox.Yes:
+            thread.terminate()
             event.accept()
         else:
             event.ignore()
 
 
-def download(year, subject_code):
-    log = ["Read from json..."]
-    MainWindow.display_info(log)
+class Download(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.stop_flag = False
+        self.counter = 0
+        self.DELAY = 10
+        self.subject_code = ""
+        self.year = ""
+
+    def down_info(self, subject_code, year):
+        self.subject_code = subject_code
+        self.year = year
+
+    def terminate(self):
+        self.stop_flag = True
+
+    def run(self):
+        subject_name = D.sub_name(self.subject_code)
+        save_dir = './{}/{}/'.format(self.subject_code, self.year)
+
+        # MainWindow.setWindowTitle("Connecting...")
+
+        # request from web page
+        C = Crawler(self.subject_code, subject_name, self.year)
+        pdfs = C.find_pdfs()
+
+        # retry when connection failed
+        '''while not pdfs:
+            if MainWindow.http_error(C.url):
+                pdfs = C.find_pdfs()
+            else:
+                break'''
+
+        # initial progress_bar
+        # MainWindow.init_progress_bar(len(pdfs))
+
+        # download all papers
+        for pdf in pdfs:
+            # terminate if set
+            if self.stop_flag:
+                return
+            # show current pdf in title
+            # MainWindow.setWindowTitle(pdf)
+            if create_save_dir(save_dir, pdf):
+                if C.save_pdfs(pdf, save_dir):
+                    break
+                '''while True:
+                    if C.save_pdfs(pdf, save_dir):
+                        break
+                    else:
+                        if not MainWindow.download_error(pdf):
+                            break'''
+
+                # pause for delay
+                for i in range(self.DELAY):
+                    time.sleep(1)
+                    # MainWindow.setWindowTitle("Pause for {}s".format(self.DELAY - i))
+
+            self.counter += 1
+            # MainWindow.update_progress_bar(self.counter)
+
+        # MainWindow.setWindowTitle("Download complete")
+        # resume button
+        # MainWindow.SubmitButton.setEnabled(True)
+
+
+if __name__ == '__main__':
+    # initial thread
+    thread = Download()
 
     # fetch info from json
     D = Data()
     D.read_json()
 
-    # parameter starts here
-    DELAY = 30
-    subject_name = D.sub_name(subject_code)
-    save_dir = './{}/{}/'.format(subject_code, year)
-
-    log.append("Subject:{}".format(subject_name))
-    log.append("Attempting to connect...".format(subject_name))
-    MainWindow.display_info(log)
-
-    C = Crawler(subject_code, subject_name, year)
-    pdfs = C.find_pdfs()
-    while not pdfs:
-        if MainWindow.http_error(C.url):
-            pdfs = C.find_pdfs()
-        else:
-            break
-
-    for pdf in pdfs:
-        MainWindow.display_info(log)
-        if not create_save_dir(save_dir, pdf):
-            log.append("File exist:{}".format(pdf))
-            MainWindow.display_info(log)
-            continue
-        while True:
-            if C.save_pdfs(pdf, save_dir):
-                log.append("Saved: {}".format(pdf))
-                MainWindow.display_info(log)
-                break
-            else:
-                if not MainWindow.download_error(pdf):
-                    break
-        time.sleep(DELAY)
-    log.append("Download complete")
-    MainWindow.display_info(log)
-
-
-if __name__ == '__main__':
     # UI initial - Main window
     app = QApplication(sys.argv)
     MainWindow = MainWindowSetup()
