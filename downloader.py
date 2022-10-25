@@ -23,18 +23,27 @@ class Crawler:
         self.save_dir = './{}/{}/'.format(code, year)
         self.year = year
 
-    def find_pdfs(self) -> list:
+    def find_pdfs(self, tags) -> list:
         web = get_html(self.url)
         if web == HTTP_ERROR:
             return [] 
         web = web.text
         pdf_list = re.findall(r'('+str(self.subject_code)+'.*?.pdf)', web)
         pdf_set = set()
-        # handling abnormal results
+        # handling abnormal results & selections
         for i in range(len(pdf_list)):
-            if len(pdf_list[i]) < 20:
+            add = False
+            # include selected tags
+            for tag in tags:
+                if tag in pdf_list[i]:
+                    add = True
+                    break
+            # exclude too long segmentations
+            if len(pdf_list[i]) > 20:
+                add = False
+            if add:
                 pdf_set.add(pdf_list[i])
-        return list(pdf_list)
+        return list(pdf_set)
 
     def save_pdfs(self, pdf: str, save_dir: str) -> bool:
         pdf_url = self.url + pdf
