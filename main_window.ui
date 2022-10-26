@@ -7,25 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>335</width>
-    <height>133</height>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>14</x>
-      <y>12</y>
-      <width>314</width>
-      <height>92</height>
+      <x>10</x>
+      <y>10</y>
+      <width>311</width>
+      <height>124</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -159,44 +159,58 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QCheckBox" name="QP_Box">
-           <property name="text">
-            <string>qp</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="MS_Box">
-           <property name="text">
-            <string>ms</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="GT_Box">
-           <property name="text">
-            <string>gt</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="CI_Box">
-           <property name="text">
-            <string>ci</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QLabel" name="BarLabel">
+         <property name="text">
+          <string>Pending</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="ProgressBar">
+         <property name="value">
+          <number>24</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QCheckBox" name="QP_Box">
+         <property name="text">
+          <string>qp</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="MS_Box">
+         <property name="text">
+          <string>ms</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="GT_Box">
+         <property name="text">
+          <string>gt</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="CI_Box">
+         <property name="text">
+          <string>ci</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="SubmitButton">
