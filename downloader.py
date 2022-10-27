@@ -12,7 +12,6 @@ import re
 import os
 
 HTTP_ERROR = "HTTPError"
-FILE_EXIST = "FileExist"
 
 
 class Crawler:
@@ -26,7 +25,7 @@ class Crawler:
     def find_pdfs(self, tags) -> list:
         web = get_html(self.url)
         if web == HTTP_ERROR:
-            return [] 
+            return []
         web = web.text
         pdf_list = re.findall(r'('+str(self.subject_code)+'.*?.pdf)', web)
         pdf_set = set()
@@ -63,11 +62,12 @@ def get_html(url: str):
         r.raise_for_status()
         r.encoding = r.apparent_encoding
         return r
-    except requests.HTTPError:
+    except requests.exceptions:
         return HTTP_ERROR
 
 
 def create_save_dir(path: str, pdf: str) -> bool:
+    # if file exist return False else True
     if not os.path.exists(path):
         os.makedirs(path)
     if os.path.exists(os.path.normpath(path + '/' + pdf)):
