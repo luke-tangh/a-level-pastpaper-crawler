@@ -1,4 +1,4 @@
-.idea/
-venv/
-__pycache__/
-*.pdf
+src/build
+src/dist
+src/main.spec
+.idea

@@ -14,15 +14,16 @@ Crawl cambridge a level papers from _papers.gceguide.com_
 - `requests`
 - `pyqt5` _optional_
 
-# run command line
+# run command line version
+
 1. git clone `https://github.com/luke-tangh/a-level-paper-downloader.git` 
 2. open `lite_downloader.py` with editor
 3. modify `subject_code` and `year` below _line 32_
 4. run `lite_downloader.py`
+5. wait for download to complete
 
 
-# run gui
-
+# run gui version
 1. git clone `https://github.com/luke-tangh/a-level-paper-downloader.git`
 2. run `main.pyw`
 3. modify `Subject`, `Year` and `Type` and click download
@@ -33,6 +34,7 @@ Crawl cambridge a level papers from _papers.gceguide.com_
 > ms - mark scheme\
 > gt - grade threshold\
 > ci - confidential information
+
 
 # supported subjects
 
