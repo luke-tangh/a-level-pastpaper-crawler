@@ -23,17 +23,26 @@ def get_html(url):
         return None
 
 
-def get_pdf_name(url):
+def get_pdf_name(url, subject_code):
     web = get_html(url)
     web_text = web.text
-    pdf_list = re.findall(r'(9702.*?.pdf)', web_text)
+    pdf_list = re.findall(r'(' + subject_code + '.*?.pdf)', web_text)
     pdf_set = set(pdf_list)
     return pdf_set
 
 
 # parameters
-year = '2014'
-subject_code = '9702'
+subject_code = input("enter the subject code(eg. 9702):")
+while len(subject_code) != 4 and not subject_code.isdigit():
+    print("invalid subject code, please retry")
+    subject_code = input("enter the subject code(eg. 9702):")
+
+year = input("enter the year to download(eg. 2015):")
+while len(year) != 4 and not year.isdigit():
+    print("invalid year, please retry")
+    year = input("enter the year to download(eg. 2015):")
+
+
 trial_max = 5
 save_path = './{}/{}/'.format(subject_code, year)
 
@@ -64,7 +73,7 @@ else:
     print('successfully connected')
 
 
-pdf_set = get_pdf_name(url)
+pdf_set = get_pdf_name(url, subject_code)
 
 print("list of downloading:")
 for pdf in pdf_set:
