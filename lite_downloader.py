@@ -7,8 +7,10 @@ import re
 # set crawl delay
 def crawl_delay():
     delay = 30  # default 30s due to robots
-    print('pause for crawl delay...({}s)'.format(delay))
-    time.sleep(delay)
+    for i in range(delay):
+        print('\rpause for crawl delay...({}s)'.format(str(delay-i).rjust(2, '0')), end="")
+        time.sleep(1)
+    print('\rpause for crawl delay...(00s)')
 
 
 def get_html(url):
@@ -37,24 +39,22 @@ save_path = './{}/{}/'.format(subject_code, year)
 
 
 subject_dict = {
-    "9702": "Physics",
-    "9701": "Chemistry",
-    "9700": "Biology",
-    "9696": "Geography",
-    "9706": "History",
-    "9489": "Economics",
-    "9093": "English",
-    "9710": "Chinese",
-    "9709": "Mathematics",
-    "9231": "Mathematics%20-%20Further%20",
-    "9608": "Computer%20Science%20(for%20final%20examination%20in%202021)",
-    "9618": "Computer%20Science%20(for%20first%20examination%20in%202021)"
-}
+    "9231": "Mathematics%20-%20Further%20(9231)",
+    "9489": "History%20(9489)",
+    "9608": "Computer%20Science%20(for%20final%20examination%20in%202021)%20(9608)",
+    "9618": "Computer%20Science%20(for%20first%20examination%20in%202021)%20(9618)",
+    "9696": "Geography%20(9696)",
+    "9700": "Biology%20(9700)",
+    "9701": "Chemistry%20(9701)",
+    "9702": "Physics%20(9702)",
+    "9708": "Economics(9708)",
+    "9709": "Mathematics%20(9709)",
+    "9990": "Psychology%20(9990)"
+    }
 
 
-subject_name = subject_dict[subject_code]
-subject = '{}%20({})'.format(subject_name,subject_code)
-url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject,year)
+subject = subject_dict[subject_code]
+url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject, year)
 print("target url: {}".format(url))
 
 r = requests.get(url, timeout=30)
@@ -65,6 +65,11 @@ else:
 
 
 pdf_set = get_pdf_name(url)
+
+print("list of downloading:")
+for pdf in pdf_set:
+    print(pdf)
+
 count = 1
 trial_max = 5
 for pdf in pdf_set:

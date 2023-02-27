@@ -46,12 +46,13 @@ Crawl cambridge a level papers from _papers.gceguide.com_
 - 9700 Biology
 - 9701 Chemistry
 - 9702 Physics
+- 9708 Economics
 - 9709 Mathematics
 - 9990 Psychology
 
 # robots
 
-Retrive from _https://www.gceguide.com/robots.txt_
+Retrieve from _https://www.gceguide.com/robots.txt_
 
 ```
 User-agent: *
