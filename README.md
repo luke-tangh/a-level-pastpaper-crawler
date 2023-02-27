@@ -3,7 +3,7 @@ Crawl cambridge a level papers from _papers.gceguide.com_
 
 - Choose from combo boxs to suit your needs
 
-- Amend `subject.json` to or `subject_dict` to add additional subjects
+- Amend `subject.json` or `subject_dict` to add additional subjects
 
 - Crawl delay are set to minimum value of 30 seconds according to the robots from the website.
 
