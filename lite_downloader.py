@@ -24,9 +24,9 @@ def get_html(url):
 
 
 def get_pdf_name(web_text: str, subject_code: str) -> set[str]:
-    pdf_list = re.findall(r'(' + subject_code + '.*?.pdf)', web_text)
-    pdf_set = set(pdf_list)
-    return pdf_set
+    # example: 9702_s20_qp_12.pdf
+    pdf_list = re.findall(r'(' + subject_code + '_\w\d{2}_\w{2}_\d{2}.pdf)', web_text)
+    return set(pdf_list)
 
 
 def input_sub_code():
@@ -38,10 +38,10 @@ def input_sub_code():
 
 
 def input_year():
-    ipt_year = input("enter the year to download(eg. 2015):")
+    ipt_year = input("enter the year to download(eg. 2021):")
     while len(ipt_year) != 4 and not ipt_year.isdigit():
         print("invalid year, please retry")
-        ipt_year = input("enter the year to download(eg. 2015):")
+        ipt_year = input("enter the year to download(eg. 2021):")
     return ipt_year
 
 
