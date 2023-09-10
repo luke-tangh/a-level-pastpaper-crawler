@@ -13,7 +13,7 @@ def crawl_delay():
     print('\rpause for crawl delay...(00s)')
 
 
-def get_html(url):
+def get_html(url: str):
     try:
         r = requests.get(url, timeout=30)
         r.raise_for_status()
@@ -23,9 +23,9 @@ def get_html(url):
         return None
 
 
-def get_pdf_name(web_text: str, subject_code: str) -> set[str]:
+def get_pdf_name(web_text: str, code: str) -> set[str]:
     # example: 9702_s20_qp_12.pdf
-    pdf_list = re.findall(r'(' + subject_code + '_\w\d{2}_\w{2}_\d{2}.pdf)', web_text)
+    pdf_list = re.findall('(' + code + r"_\w\d{2}_\w{2}_\d{2}.pdf)", web_text)
     return set(pdf_list)
 
 
@@ -43,13 +43,6 @@ def input_year():
         print("invalid year, please retry")
         ipt_year = input("enter the year to download(eg. 2021):")
     return ipt_year
-
-
-def print_file_info(count, pdf_set, pdf):
-    print("---------------------")
-    print(pdf)
-    print(count, "/", len(pdf_set))
-    print("---------------------")
 
 
 subject_dict = {
@@ -75,16 +68,17 @@ subject_code = input_sub_code()
 while subject_code not in subject_dict:
     print("subject code {} is not supported".format(subject_code))
     subject_code = input_sub_code()
- 
+
+
 year = input_year()
 
 
 subject = subject_dict[subject_code]
-url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject, year)
-print("target url: {}".format(url))
+target_url = "https://papers.gceguide.com/A%20Levels/{}/{}/".format(subject, year)
+print("target url: {}".format(target_url))
 
 
-r = get_html(url)
+r = get_html(target_url)
 if r.status_code != 200:
     print('connection failed, double check the parameters')
 else:
@@ -103,16 +97,20 @@ for pdf in pdf_set:
 
 
 for pdf in pdf_set:
+    print("---------------------")
+    print(pdf)
+    print(count, "/", len(pdf_set))
+    print("---------------------")
+
     trial = 1
-    print_file_info(count, pdf_set, pdf)
-    pdf_url = url + pdf
+    pdf_url = target_url + pdf
     pdf_name = save_path + pdf
-    
+
     if os.path.exists(pdf_name):
-        print("File already existed")
+        print("File exists")
         count += 1
         continue
-    
+
     print("Downloading...")
     pdf_download = get_html(pdf_url)
     while pdf_download is None:
@@ -123,14 +121,14 @@ for pdf in pdf_set:
             print("Download failed. Automatically switch to next item.")
             break
         trial += 1
-    
+
     if pdf_download is None:
         continue
 
     pdf_download = pdf_download.content
     with open(pdf_name, "wb") as f:
         f.write(pdf_download)
-    print("successfully downloaded")
+    print("Successfully downloaded")
     crawl_delay()
     count += 1
 
